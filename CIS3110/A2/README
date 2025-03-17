@@ -1,0 +1,23 @@
+#  Assignment 2
+## CIS 3110/Operating Systems
+## W25
+## Luc Levesque
+## ID: 1238403
+### Description
+This program simulates a Token Ring Local Area Network using shared memory and semphores. The program first starts by initializing the shared memory and semaphores within the setupSystem function. Then, to start the simulation, the program creates an inactive token(not being used by other nodes currently).
+Then, each node will run in the token_node function, continuing until the node is done. Within the token_node function, the current node receives a byte from the previous node and then runs through a switch statement handling the state of the node:
+
+TOKEN_FLAG - node checks if the token is inactive and if there is data to send. If true, then the node sets itself as the sender and changes the state to TO. If false, then the current node passes the token to the next node
+
+TO - the node send the packet or byte, changes the state to FROM
+
+FROM - the node sends the packet or byte, changes state to LEN
+
+LEN - node sends the packet or data, and sets the length of the data to be sent, changes state to DATA
+
+DATA - node sends the data byte by byte. When all data is sent, reset the sender flag as well as change the state back to TOKEN_FLAG
+
+Sending data is handled by the send_pkt function. This function will send a data packet, followed by the token. It also sends the destination node number, source node number, the length of the data being sent, as well as the data itself.
+
+In summary, this code simulates a Token Ring network where nodes take turns passing a token around the ring. This code implements the concepts of semaphores and shared memory in order to accomplish this goal
+
