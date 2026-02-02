@@ -4,7 +4,7 @@ module stackADT
     implicit none
     private
 
-    public :: Stack, push, pop, isEmpty, isFull, stackInit, stackDelete, stackClear
+    public :: Stack, push, pop, isEmpty, isFull, stackInit, stackDelete, clear
    
     !left and right end of the stck
     type :: bounds
@@ -43,10 +43,10 @@ module stackADT
         end subroutine stackDelete
 
         !clear stck with no deallocation
-        subroutine stackClear(stck)
+        subroutine clear(stck)
             type (Stack), intent(inout) :: stck
             stck%topElement = 0
-        end subroutine stackClear
+        end subroutine clear
 
         !check if the stck is empty
         logical function isEmpty(stck)
