@@ -1,7 +1,10 @@
-! Luc Levesque
-! 1238403
-! Iterative Quicksort in Fortran    
-    
+! ============================================================================
+! Program: iqsort
+! Description: Interative Quicksort implementation
+! Author: Luc Levesque
+! ID: 1238403
+! ============================================================================
+
     program iqsort
         use intIO
         use stackADT
