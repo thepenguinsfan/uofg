@@ -1,0 +1,157 @@
+V "GNAT Lib v13"
+M P W=b
+A -Wall
+A -gnatwa
+P ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_IO
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+
+U cal%b			cal.adb			fd730d52 NE OO SU
+W ada%s			ada.ads			ada.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+
+D ada.ads		20240521074738 76789da1 ada%s
+D a-except.ads		20240521074738 2a7d8d70 ada.exceptions%s
+D a-inteio.ads		20240521074738 f64b89a4 ada.integer_text_io%s
+D a-ioexce.ads		20240521074738 40018c65 ada.io_exceptions%s
+D a-stream.ads		20240521074738 119b8fb3 ada.streams%s
+D a-string.ads		20240521074738 90ac6797 ada.strings%s
+D a-sttebu.ads		20240521074738 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20240521074738 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20240521074738 9eaa38c6 ada.tags%s
+D a-textio.ads		20240521074738 5c2c6153 ada.text_io%s
+D a-tiinio.ads		20240521074738 e58fa6fb ada.text_io.integer_io%s
+D a-unccon.ads		20240521074738 0e9b276f ada.unchecked_conversion%s
+D cal.adb		20260224221659 5714e5a5 cal%b
+D interfac.ads		20240521074738 15f799c2 interfaces%s
+D i-cstrea.ads		20240521074738 e53d8b8e interfaces.c_streams%s
+D system.ads		20240521074738 426dafb8 system%s
+D s-crtl.ads		20240521074738 8a0692f8 system.crtl%s
+D s-exctab.ads		20240521074738 91bef6ef system.exception_table%s
+D s-ficobl.ads		20240521074738 dc5161d4 system.file_control_block%s
+D s-parame.ads		20251218205951 1f39ba92 system.parameters%s
+D s-putima.ads		20240521074738 17291fe4 system.put_images%s
+D s-secsta.ads		20240521074738 578279f5 system.secondary_stack%s
+D s-soflin.ads		20240521074738 df77073e system.soft_links%s
+D s-stache.ads		20240521074738 0b81c1fe system.stack_checking%s
+D s-stalib.ads		20240521074738 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240521074738 ab5468e4 system.storage_elements%s
+D s-stoele.adb		20240521074738 8f5a9db6 system.storage_elements%b
+D s-traent.ads		20240521074738 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240521074738 fa2a7f59 system.unsigned_types%s
+D s-wchcon.ads		20240521074738 d9032363 system.wch_con%s
+G a e
+G c Z b b [cal standard 4 11 none]
+X 1 ada.ads
+16K9*Ada 20e8 13|1r6 1r23 2r6 2r31
+X 3 a-inteio.ads
+18K13*Integer_Text_IO[11|46] 13|2w10 2r35
+X 10 a-textio.ads
+58K13*Text_IO 787e16 13|1w10 1r27
+66P9*File_Type 13|43r14
+68n23*In_File{68E9} 13|53r15
+88I12*Field{integer}
+114U14*Open 13|53s7
+130U14*Close 13|65s7
+282U14*New_Line 13|203s10 244s7 252s7 288s16 299s4 301s4 309s10
+293U14*Skip_Line 13|128s10 142s7
+423U14*Get 13|141s7
+436U14*Put 13|194s13 233s16 237s16 281s25
+519U14*Put 13|126s10 140s7 198s13 200s16 235s13 241s13 247s10 249s13 276s25
+. 285s22
+526U14*Get_Line 13|56s13
+566U14*Put_Line 13|132s13
+X 11 a-tiinio.ads
+60U14*Get 13|127s10[3|18]
+83U14*Put 13|278s25[3|18]
+85i7 Width{10|88I12} 13|278r48[3|18]
+X 13 cal.adb
+4U11*Cal 4b11 313l5 313t8
+6A9 Day_Grid(natural)<integer><integer> 7r40
+7A9 Cal_Grid(6A9)<integer> 34r18
+8E9 Lang_Type 8e39 37r18 119r39
+8n23 English{8E9} 146r15 214r17
+8n32 French{8E9} 144r15
+10A12 Digit_Line{string}<integer> 11r50
+11A9 Digit_Font(10A12)<integer><integer> 33r18
+13A9 Month_Name<string>(character)<integer> 14r48
+14A9 Month_Name_Array(13A9)<integer> 16r30 23r29 212r17
+16a4 English_Months{14A9} 216r19
+23a4 French_Months{14A9} 219r19
+30a4 English_Days{string} 215r21
+31a4 French_Days{string} 218r21
+33a4 Banner_Font{11A9} 49m13 61m16 198r17
+34a4 Calendar{7A9} 162m16 172m16 266r22 275r25 278r29
+35i4 Year{integer} 166r36 296m16 300r17
+36i4 First_Day{integer} 157r22 296m22
+37e4 Lang{8E9} 214r10 296m33
+42U14 Load_Banner 42b14 66l8 66t19 295s4
+43p7 F{10|66P9} 53m12 53r12 56r22 65m13 65r13
+44a7 Line{string} 56m25 61r40
+45i7 Last{natural} 56m31 57r16 58m16 60r27
+47i11 D{integer} 49r25
+48i14 R{integer} 49r28
+54i11 D{integer} 61r28
+55i14 R{integer} 61r31
+60i17 I{integer} 61r34 61r45
+71V13 IsValid{boolean} 71b13 71>22 74l8 74t15 129s13
+71i22 Y{integer} 73r14
+79V13 LeapYear{boolean} 79b13 79>23 90l8 90t16 103s16
+79i23 Y{integer} 81r10 83r13 85r13
+95V13 NumDaysInMonth{integer} 95b13 95>29 95>45 111l8 111t22 166s18
+95i29 M{integer} 97r12
+95i45 Y{integer} 103r25
+117U14 ReadCalInfo 117b14 117<27 118<27 119<27 148l8 148t19 296s4
+117i27 Y{integer} 135m7 137r14
+118i27 FDay{integer} 138m7
+119e27 L{8E9} 144m10 146m10
+120i7 Temp{integer} 127m14 129r21 135r12
+121i7 YM1{integer} 137m7 138r21 138r28 138r40 138r54
+122e7 Choice{character} 141m11 143r10 143r26
+123b7 Valid{boolean} 125r17 130m13
+153U14 BuildCalendar 153b14 178l8 178t21 297s4
+154i7 Day_Of_Week{integer} 157m7 169r45 170r45 176m10 176r26
+155i7 Days{integer} 166m10 167r25 176r40
+159i11 M{integer} 162r25 166r33 172r25
+160i14 W{integer} 162r28
+161i17 D{integer} 162r31
+167i14 Dy{integer} 169r59 170r59 172r42
+169i16 Week{integer} 172r28
+170i16 Col{integer} 172r34
+183U14 Banner_Print 183b14 183>28 183>44 205l8 205t20 300s4
+183i28 Y{integer} 185r27
+183i44 Indent{integer} 193r24
+184a7 Digs(integer) 188m10 198r29
+185i7 Temp{integer} 188r21 189m10 189r18
+187i11 I{integer} 188r15
+192i11 Row{integer} 198r38
+193i14 I{integer}
+197i14 D{integer} 198r34 199r16
+210U14 PrintRowHeading 210b14 210>31 253l8 253t23 307s10
+210i31 Start_Month{integer} 222r16 222r31 240r17 246r16 246r31 248r17
+211a7 Day_Hdr{string} 215m10 218m10 247r14
+212a7 Names{14A9} 216m10 219m10 224r49
+222i11 M{integer} 224r55 240r13
+224a13 Name{string} 225r35 228r41 235r17
+225i13 Trim_Len{natural} 228r19 228r46 229m16 229r28 231r26 235r27 236r39
+226i13 Pad{natural} 231m13 232r27 236r33
+232i17 I{integer}
+236i17 I{integer}
+246i11 M{integer} 248r13
+258U14 PrintRowMonth 258b14 258>29 292l8 292t21 308s10
+258i29 Start_Month{integer} 264r22 264r37 273r25 273r40 284r26
+260i11 W{integer} 266r34 275r37 278r41
+262b13 All_Empty{boolean} 267m22 272r20
+264i17 M{integer} 266r31
+265i20 D{integer} 266r37
+273i20 M{integer} 275r34 278r38 284r22
+274i23 D{integer} 275r40 278r44 280r25
+303i8 Row{integer} 305r40
+305i10 Start_M{integer} 307r26 308r24
+
