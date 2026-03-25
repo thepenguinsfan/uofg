@@ -163,7 +163,7 @@
                (ws-sum-squared-diff /
                ws-data-count) ** 0.5.
 
-      *> geo mean = exp(sum(ln(x_i)) / n)
+      *> geometric mean = exp(sum(ln(x_i)) / n)
        calculate-geometric-mean.
            move 0 to ws-sum-of-logarithms
            perform varying ws-index from 1 by 1
