@@ -173,7 +173,7 @@ contains
     subroutine addAbsolute(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
-        type(Node), pointer :: curA, curB
+        type(Node), pointer :: nodeA, nodeB
         integer :: digitA, digitB, sumDigit, carry
 
         !initialize result
@@ -181,22 +181,22 @@ contains
         res%sign = 1
         carry = 0
 
-        curA => a%head
-        curB => b%head
+        nodeA => a%head
+        nodeB => b%head
 
         !add digit pairs from least to most significant
-        do while(associated(curA) .or. associated(curB) .or. carry /= 0)
+        do while(associated(nodeA) .or. associated(nodeB) .or. carry /= 0)
             digitA = 0
             digitB = 0
 
-            if(associated(curA)) then
-                digitA = curA%digit
-                curA => curA%next
+            if(associated(nodeA)) then
+                digitA = nodeA%digit
+                nodeA => nodeA%next
             end if
 
-            if(associated(curB)) then
-                digitB = curB%digit
-                curB => curB%next
+            if(associated(nodeB)) then
+                digitB = nodeB%digit
+                nodeB => nodeB%next
             end if
 
             sumDigit = digitA + digitB + carry
@@ -211,7 +211,7 @@ contains
     subroutine subtractAbsolute(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
-        type(Node), pointer :: curA, curB
+        type(Node), pointer :: nodeA, nodeB
         integer :: digitA, digitB, diff, borrow
 
         !initialize result
@@ -219,22 +219,22 @@ contains
         res%sign = 1
         borrow = 0
 
-        curA => a%head
-        curB => b%head
+        nodeA => a%head
+        nodeB => b%head
 
         !subtract digit pairs from least to most significant
-        do while(associated(curA) .or. associated(curB))
+        do while(associated(nodeA) .or. associated(nodeB))
             digitA = 0
             digitB = 0
 
-            if(associated(curA)) then
-                digitA = curA%digit
-                curA => curA%next
+            if(associated(nodeA)) then
+                digitA = nodeA%digit
+                nodeA => nodeA%next
             end if
 
-            if(associated(curB)) then
-                digitB = curB%digit
-                curB => curB%next
+            if(associated(nodeB)) then
+                digitB = nodeB%digit
+                nodeB => nodeB%next
             end if
 
             diff = digitA - digitB - borrow
@@ -296,19 +296,19 @@ contains
         type(BigInt), intent(in) :: a
         integer, intent(in) :: d
         type(BigInt), intent(out) :: res
-        type(Node), pointer :: curA
+        type(Node), pointer :: nodeA
         integer :: prod, carry
 
         nullify(res%head)
         res%sign = 1
         carry = 0
 
-        curA => a%head
-        do while(associated(curA))
-            prod = curA%digit * d + carry
+        nodeA => a%head
+        do while(associated(nodeA))
+            prod = nodeA%digit * d + carry
             carry = prod / 10
             call appendNode(res, mod(prod, 10))
-            curA => curA%next
+            nodeA => nodeA%next
         end do
 
         !append any remaining carry
@@ -336,22 +336,22 @@ contains
         end do
     end subroutine shiftLeft
 
-    !multiply two signed BigInts using grade-school algorithm
+    !multiply two signed BigInts 
     subroutine bigMultiply(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
         type(BigInt) :: partial, newSum
-        type(Node), pointer :: curB
+        type(Node), pointer :: nodeB
         integer :: position
 
         !accumulate partial products for each digit of b
         call listCreate(res)
         position = 0
 
-        curB => b%head
-        do while(associated(curB))
-            if(curB%digit /= 0) then
-                call multiplySingleDigit(a, curB%digit, partial)
+        nodeB => b%head
+        do while(associated(nodeB))
+            if(nodeB%digit /= 0) then
+                call multiplySingleDigit(a, nodeB%digit, partial)
                 call shiftLeft(partial, position)
 
                 call addAbsolute(res, partial, newSum)
@@ -362,7 +362,7 @@ contains
             end if
 
             position = position + 1
-            curB => curB%next
+            nodeB => nodeB%next
         end do
 
         !set result sign and handle negative zero
@@ -370,7 +370,7 @@ contains
         if(listIsZero(res)) res%sign = 1
     end subroutine bigMultiply
 
-    !divide two signed BigInts, truncated toward zero
+    !divide two signed BigInts
     subroutine bigDivide(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
@@ -378,7 +378,7 @@ contains
         type(BigInt) :: digitTimesB, newRemainder
         integer :: lengthA, i
         integer, allocatable :: digitsA(:)
-        type(Node), pointer :: curA
+        type(Node), pointer :: nodeA
         integer :: low, high, middle
         type(BigInt) :: middleTimesB
         integer :: comparison
@@ -391,7 +391,7 @@ contains
             return
         end if
 
-        !work with absolute values, apply sign at the end
+        !copy a and b to absoluteA and absoluteB and set sign to positive
         call listCopy(absoluteA, a)
         absoluteA%sign = 1
         call listCopy(absoluteB, b)
@@ -400,10 +400,10 @@ contains
         !extract digits of a most significant first
         lengthA = listLength(absoluteA)
         allocate(digitsA(lengthA))
-        curA => absoluteA%head
+        nodeA => absoluteA%head
         do i = 1, lengthA
-            digitsA(i) = curA%digit
-            curA => curA%next
+            digitsA(i) = nodeA%digit
+            nodeA => nodeA%next
         end do
 
         !perform long division digit by digit
@@ -451,7 +451,7 @@ contains
         res%sign = a%sign * b%sign
         if(listIsZero(res)) res%sign = 1
 
-        !free working storage
+        !free memory
         deallocate(digitsA)
         call listDelete(remainder)
         call listDelete(absoluteA)

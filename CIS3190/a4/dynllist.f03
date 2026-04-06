@@ -19,7 +19,8 @@ module dynllist
         type(Node), pointer :: next => null()
     end type Node
 
-    !sign and head pointer, digits stored least significant first
+    !sign and head pointer
+    !digits stored least significant first
     type :: BigInt
         integer :: sign = 1
         type(Node), pointer :: head => null()
@@ -51,7 +52,7 @@ module dynllist
             num%sign = 1
         end subroutine listDelete
 
-        !copy src into dst
+        !copy source contents into destination
         subroutine listCopy(dst, src)
             type(BigInt), intent(out) :: dst
             type(BigInt), intent(in) :: src
@@ -89,7 +90,8 @@ module dynllist
             newNode%digit = digit
             nullify(newNode%next)
 
-            !link as head if list is empty, otherwise traverse to tail
+            !link as head if list is empty 
+            !otherwise traverse to tail
             if(.not. associated(num%head)) then
                 num%head => newNode
             else
@@ -181,11 +183,11 @@ module dynllist
             end do
         end subroutine listTrimLeadingZeros
 
-        !compare absolute values, returns -1, 0, or 1
+        !compare absolute values of two BigInts
         integer function listCompareAbs(a, b)
             type(BigInt), intent(in) :: a, b
             integer :: lengthA, lengthB
-            type(Node), pointer :: curA, curB
+            type(Node), pointer :: nodeA, nodeB
             integer :: i
             integer, allocatable :: digitsA(:), digitsB(:)
 
@@ -204,16 +206,16 @@ module dynllist
             !same length, compare digit by digit from most significant
             allocate(digitsA(lengthA), digitsB(lengthB))
 
-            curA => a%head
+            nodeA => a%head
             do i = 1, lengthA
-                digitsA(i) = curA%digit
-                curA => curA%next
+                digitsA(i) = nodeA%digit
+                nodeA => nodeA%next
             end do
 
-            curB => b%head
+            nodeB => b%head
             do i = 1, lengthB
-                digitsB(i) = curB%digit
-                curB => curB%next
+                digitsB(i) = nodeB%digit
+                nodeB => nodeB%next
             end do
 
             !compare digits from most significant to least significant
@@ -233,7 +235,8 @@ module dynllist
             deallocate(digitsA, digitsB)
         end function listCompareAbs
 
-        !build a BigInt from a string, digits stored least significant first
+        !build a BigInt from a string
+        !digits stored least significant first
         subroutine listFromString(num, str)
             type(BigInt), intent(out) :: num
             character(len=*), intent(in) :: str
