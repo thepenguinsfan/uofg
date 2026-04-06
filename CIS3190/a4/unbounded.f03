@@ -16,11 +16,12 @@ program unbounded
     running = .true.
 
     do while(running)
-        !prompt for operation
+        !read operation from user
         write(*, '(A)', advance='no') "> Enter an operation: + - * / or ! (q to quit): "
         read(*, '(A)') operation
         operation = trim(adjustl(operation))
 
+        !dispatch to the appropriate handler
         select case(operation(1:1))
         case('q', 'Q')
             running = .false.
@@ -39,7 +40,7 @@ program unbounded
 
 contains
 
-    !validate that a string represents a valid integer
+    !return true if str is a valid integer
     logical function isValidNumber(str)
         character(len=*), intent(in) :: str
         integer :: i, startPos
@@ -50,12 +51,14 @@ contains
 
         if(len_trim(trimmed) == 0) return
 
+        !skip optional leading sign
         startPos = 1
         if(trimmed(1:1) == '-' .or. trimmed(1:1) == '+') then
             startPos = 2
             if(len_trim(trimmed) < 2) return
         end if
 
+        !reject if any character is not a digit
         do i = startPos, len_trim(trimmed)
             if(trimmed(i:i) < '0' .or. trimmed(i:i) > '9') return
         end do
@@ -63,12 +66,13 @@ contains
         isValidNumber = .true.
     end function isValidNumber
 
-    !read and validate a number from user input
+    !prompt user until a valid integer is entered
     subroutine readOperand(prompt, num)
         character(len=*), intent(in) :: prompt
         type(BigInt), intent(out) :: num
         character(len=1024) :: input
 
+        !keep prompting until a valid number is entered
         do
             write(*, '(A)', advance='no') prompt
             read(*, '(A)') input
@@ -83,7 +87,7 @@ contains
         end do
     end subroutine readOperand
 
-    !handle +, -, *, / operations
+    !read two operands and perform the given arithmetic operation
     subroutine handleArithmetic(op)
         character(len=1), intent(in) :: op
 
@@ -107,6 +111,7 @@ contains
             call bigDivide(num1, num2, result)
         end select
 
+        !print result and free memory
         write(*, '(A)', advance='no') "> The result is: "
         call listPrint(result)
         write(*, *)
@@ -116,7 +121,7 @@ contains
         call listDelete(result)
     end subroutine handleArithmetic
 
-    !handle the factorial operation
+    !read n and compute n!
     subroutine handleFactorial()
         character(len=1024) :: input
         integer :: n, i, ioStatus
@@ -126,15 +131,17 @@ contains
         read(*, '(A)') input
         input = trim(adjustl(input))
 
+        !validate n is a non-negative integer up to 42
         read(input, *, iostat=ioStatus) n
         if(ioStatus /= 0 .or. n < 0 .or. n > 42) then
             write(*, '(A)') "Invalid input. Please enter a non-negative integer up to 42."
             return
         end if
 
-        !0! = 1, 1! = 1
+        !start accumulator at 1
         call listFromString(factResult, "1")
 
+        !multiply accumulator by each integer from 2 to n
         do i = 2, n
             call bigIntFromInt(multiplier, i)
             call bigMultiply(factResult, multiplier, temp)
@@ -151,23 +158,25 @@ contains
         call listDelete(factResult)
     end subroutine handleFactorial
 
-    !create a BigInt from a native integer
+    !convert a native integer to a BigInt
     subroutine bigIntFromInt(num, val)
         type(BigInt), intent(out) :: num
         integer, intent(in) :: val
         character(len=20) :: str
 
+        !format val as a string then parse into a BigInt
         write(str, '(I0)') val
         call listFromString(num, trim(str))
     end subroutine bigIntFromInt
 
-    !addition of absolute values (both assumed positive)
+    !add absolute values of two BigInts
     subroutine addAbsolute(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
         type(Node), pointer :: curA, curB
         integer :: digitA, digitB, sumDigit, carry
 
+        !initialize result
         nullify(res%head)
         res%sign = 1
         carry = 0
@@ -175,6 +184,7 @@ contains
         curA => a%head
         curB => b%head
 
+        !add digit pairs from least to most significant
         do while(associated(curA) .or. associated(curB) .or. carry /= 0)
             digitA = 0
             digitB = 0
@@ -197,13 +207,14 @@ contains
         call listTrimLeadingZeros(res)
     end subroutine addAbsolute
 
-    !subtraction of absolute values: computes |a| - |b| where |a| >= |b|
+    !subtract absolute values, assumes |a| >= |b|
     subroutine subtractAbsolute(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
         type(Node), pointer :: curA, curB
         integer :: digitA, digitB, diff, borrow
 
+        !initialize result
         nullify(res%head)
         res%sign = 1
         borrow = 0
@@ -211,6 +222,7 @@ contains
         curA => a%head
         curB => b%head
 
+        !subtract digit pairs from least to most significant
         do while(associated(curA) .or. associated(curB))
             digitA = 0
             digitB = 0
@@ -226,6 +238,7 @@ contains
             end if
 
             diff = digitA - digitB - borrow
+            !borrow from the next digit if result is negative
             if(diff < 0) then
                 diff = diff + 10
                 borrow = 1
@@ -239,20 +252,21 @@ contains
         call listTrimLeadingZeros(res)
     end subroutine subtractAbsolute
 
-    !signed addition
+    !add two signed BigInts
     subroutine bigAdd(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
-        integer :: cmp
+        integer :: comparison
 
+        !same sign: add magnitudes; opposite sign: subtract the smaller from the larger
         if(a%sign == b%sign) then
             call addAbsolute(a, b, res)
             res%sign = a%sign
         else
-            cmp = listCompareAbs(a, b)
-            if(cmp == 0) then
+            comparison = listCompareAbs(a, b)
+            if(comparison == 0) then
                 call listCreate(res)
-            else if(cmp > 0) then
+            else if(comparison > 0) then
                 call subtractAbsolute(a, b, res)
                 res%sign = a%sign
             else
@@ -264,19 +278,20 @@ contains
         if(listIsZero(res)) res%sign = 1
     end subroutine bigAdd
 
-    !signed subtraction
+    !subtract two signed BigInts
     subroutine bigSubtract(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
         type(BigInt) :: negB
 
+        !negate b and add, reusing the addition logic
         call listCopy(negB, b)
         call listNegate(negB)
         call bigAdd(a, negB, res)
         call listDelete(negB)
     end subroutine bigSubtract
 
-    !multiply a BigInt by a single digit (0-9)
+    !multiply a BigInt by a single digit
     subroutine multiplySingleDigit(a, d, res)
         type(BigInt), intent(in) :: a
         integer, intent(in) :: d
@@ -296,6 +311,7 @@ contains
             curA => curA%next
         end do
 
+        !append any remaining carry
         if(carry > 0) then
             call appendNode(res, carry)
         end if
@@ -303,7 +319,7 @@ contains
         call listTrimLeadingZeros(res)
     end subroutine multiplySingleDigit
 
-    !shift left by n positions (multiply by 10^n)
+    !prepend n zero digits to multiply by 10^n
     subroutine shiftLeft(num, n)
         type(BigInt), intent(inout) :: num
         integer, intent(in) :: n
@@ -320,7 +336,7 @@ contains
         end do
     end subroutine shiftLeft
 
-    !signed multiplication using grade-school algorithm
+    !multiply two signed BigInts using grade-school algorithm
     subroutine bigMultiply(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
@@ -328,6 +344,7 @@ contains
         type(Node), pointer :: curB
         integer :: position
 
+        !accumulate partial products for each digit of b
         call listCreate(res)
         position = 0
 
@@ -348,79 +365,79 @@ contains
             curB => curB%next
         end do
 
+        !set result sign and handle negative zero
         res%sign = a%sign * b%sign
         if(listIsZero(res)) res%sign = 1
     end subroutine bigMultiply
 
-    !signed integer division (truncated toward zero)
+    !divide two signed BigInts, truncated toward zero
     subroutine bigDivide(a, b, res)
         type(BigInt), intent(in) :: a, b
         type(BigInt), intent(out) :: res
-        type(BigInt) :: remainder, absA, absB
+        type(BigInt) :: remainder, absoluteA, absoluteB
         type(BigInt) :: digitTimesB, newRemainder
-        integer :: lenA, i
+        integer :: lengthA, i
         integer, allocatable :: digitsA(:)
         type(Node), pointer :: curA
-        integer :: lo, hi, mid
-        type(BigInt) :: midTimesB
-        integer :: cmp
+        integer :: low, high, middle
+        type(BigInt) :: middleTimesB
+        integer :: comparison
         character(len=1024) :: quotientStr
-        integer :: qpos
+        integer :: quotientPos
 
-        !handle division of zero
+        !dividend is zero, return zero
         if(listIsZero(a)) then
             call listCreate(res)
             return
         end if
 
-        call listCopy(absA, a)
-        absA%sign = 1
-        call listCopy(absB, b)
-        absB%sign = 1
+        !work with absolute values, apply sign at the end
+        call listCopy(absoluteA, a)
+        absoluteA%sign = 1
+        call listCopy(absoluteB, b)
+        absoluteB%sign = 1
 
-        !extract digits of a from most significant to least significant
-        lenA = listLength(absA)
-        allocate(digitsA(lenA))
-        curA => absA%head
-        do i = 1, lenA
+        !extract digits of a most significant first
+        lengthA = listLength(absoluteA)
+        allocate(digitsA(lengthA))
+        curA => absoluteA%head
+        do i = 1, lengthA
             digitsA(i) = curA%digit
             curA => curA%next
         end do
 
-        !long division
+        !perform long division digit by digit
         call listFromString(remainder, "0")
         quotientStr = ' '
-        qpos = 1
+        quotientPos = 1
 
-        do i = lenA, 1, -1
-            !shift remainder left and add next digit
+        do i = lengthA, 1, -1
+            !bring down the next digit into the remainder
             call shiftLeft(remainder, 1)
-
-            !set the least significant digit to the current digit
             remainder%head%digit = digitsA(i)
             call listTrimLeadingZeros(remainder)
 
-            !binary search for the quotient digit (0-9)
-            lo = 0
-            hi = 9
-            do while(lo < hi)
-                mid = (lo + hi + 1) / 2
-                call multiplySingleDigit(absB, mid, midTimesB)
-                cmp = listCompareAbs(midTimesB, remainder)
-                if(cmp <= 0) then
-                    lo = mid
+            !binary search for the largest quotient digit that fits
+            low = 0
+            high = 9
+            do while(low < high)
+                middle = (low + high + 1) / 2
+                call multiplySingleDigit(absoluteB, middle, middleTimesB)
+                comparison = listCompareAbs(middleTimesB, remainder)
+                if(comparison <= 0) then
+                    low = middle
                 else
-                    hi = mid - 1
+                    high = middle - 1
                 end if
-                call listDelete(midTimesB)
+                call listDelete(middleTimesB)
             end do
 
-            quotientStr(qpos:qpos) = char(lo + ichar('0'))
-            qpos = qpos + 1
+            quotientStr(quotientPos:quotientPos) = char(low + ichar('0'))
+            quotientPos = quotientPos + 1
 
-            !subtract lo * absB from remainder
-            if(lo > 0) then
-                call multiplySingleDigit(absB, lo, digitTimesB)
+            !subtract the quotient digit times divisor from remainder
+            if(low > 0) then
+                call multiplySingleDigit(absoluteB, low, digitTimesB)
                 call subtractAbsolute(remainder, digitTimesB, newRemainder)
                 call listDelete(remainder)
                 call listCopy(remainder, newRemainder)
@@ -429,14 +446,16 @@ contains
             end if
         end do
 
+        !build result from quotient string and apply sign
         call listFromString(res, trim(quotientStr))
         res%sign = a%sign * b%sign
         if(listIsZero(res)) res%sign = 1
 
+        !free working storage
         deallocate(digitsA)
         call listDelete(remainder)
-        call listDelete(absA)
-        call listDelete(absB)
+        call listDelete(absoluteA)
+        call listDelete(absoluteB)
     end subroutine bigDivide
 
 end program unbounded

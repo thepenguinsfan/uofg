@@ -13,12 +13,13 @@ module dynllist
               listFromString, listCopy, listLength, listIsZero, listNegate, &
               listCompareAbs, listTrimLeadingZeros, appendNode
 
+    !single digit node with a pointer to the next node
     type :: Node
         integer :: digit
         type(Node), pointer :: next => null()
     end type Node
 
-    !stores sign and pointer to head of digit list (least significant first)
+    !sign and head pointer, digits stored least significant first
     type :: BigInt
         integer :: sign = 1
         type(Node), pointer :: head => null()
@@ -26,7 +27,7 @@ module dynllist
 
     contains
 
-        !create a new BigInt initialized to zero
+        !initialize a BigInt to zero
         subroutine listCreate(num)
             type(BigInt), intent(out) :: num
 
@@ -35,7 +36,7 @@ module dynllist
             call prependNode(num, 0)
         end subroutine listCreate
 
-        !deallocate all nodes in the list
+        !free all nodes in the list
         subroutine listDelete(num)
             type(BigInt), intent(inout) :: num
             type(Node), pointer :: current, temp
@@ -50,7 +51,7 @@ module dynllist
             num%sign = 1
         end subroutine listDelete
 
-        !deep copy src into dst
+        !copy src into dst
         subroutine listCopy(dst, src)
             type(BigInt), intent(out) :: dst
             type(BigInt), intent(in) :: src
@@ -66,7 +67,7 @@ module dynllist
             end do
         end subroutine listCopy
 
-        !prepend a digit node at the head (used to build least-significant first)
+        !prepend a digit node at the head
         subroutine prependNode(num, digit)
             type(BigInt), intent(inout) :: num
             integer, intent(in) :: digit
@@ -88,6 +89,7 @@ module dynllist
             newNode%digit = digit
             nullify(newNode%next)
 
+            !link as head if list is empty, otherwise traverse to tail
             if(.not. associated(num%head)) then
                 num%head => newNode
             else
@@ -99,7 +101,7 @@ module dynllist
             end if
         end subroutine appendNode
 
-        !count the number of nodes
+        !return the number of nodes
         integer function listLength(num)
             type(BigInt), intent(in) :: num
             type(Node), pointer :: current
@@ -112,7 +114,7 @@ module dynllist
             end do
         end function listLength
 
-        !check if the BigInt represents zero
+        !return true if all digits are zero
         logical function listIsZero(num)
             type(BigInt), intent(in) :: num
             type(Node), pointer :: current
@@ -128,7 +130,7 @@ module dynllist
             end do
         end function listIsZero
 
-        !negate a BigInt
+        !flip the sign of a BigInt
         subroutine listNegate(num)
             type(BigInt), intent(inout) :: num
 
@@ -137,7 +139,7 @@ module dynllist
             end if
         end subroutine listNegate
 
-        !remove leading zeros (trailing nodes since list is least-significant first)
+        !remove trailing zero nodes (most significant zeros)
         subroutine listTrimLeadingZeros(num)
             type(BigInt), intent(inout) :: num
             type(Node), pointer :: current, prev, last_nonzero
@@ -146,7 +148,7 @@ module dynllist
             len = listLength(num)
             if(len <= 1) return
 
-            !find last non-zero node by traversing and tracking it
+            !find the last non-zero node
             nullify(last_nonzero)
             current => num%head
             do while(associated(current))
@@ -156,7 +158,7 @@ module dynllist
                 current => current%next
             end do
 
-            !if all zeros, keep just one
+            !if all zeros, keep one zero node
             if(.not. associated(last_nonzero)) then
                 current => num%head%next
                 do while(associated(current))
@@ -169,7 +171,7 @@ module dynllist
                 return
             end if
 
-            !free everything after last_nonzero
+            !free nodes after the last non-zero
             current => last_nonzero%next
             nullify(last_nonzero%next)
             do while(associated(current))
@@ -179,43 +181,44 @@ module dynllist
             end do
         end subroutine listTrimLeadingZeros
 
-        !compare absolute values: returns -1, 0, or 1
+        !compare absolute values, returns -1, 0, or 1
         integer function listCompareAbs(a, b)
             type(BigInt), intent(in) :: a, b
-            integer :: lenA, lenB
+            integer :: lengthA, lengthB
             type(Node), pointer :: curA, curB
             integer :: i
             integer, allocatable :: digitsA(:), digitsB(:)
 
-            lenA = listLength(a)
-            lenB = listLength(b)
+            !longer number is larger
+            lengthA = listLength(a)
+            lengthB = listLength(b)
 
-            if(lenA > lenB) then
+            if(lengthA > lengthB) then
                 listCompareAbs = 1
                 return
-            else if(lenA < lenB) then
+            else if(lengthA < lengthB) then
                 listCompareAbs = -1
                 return
             end if
 
-            !same length: compare from most significant digit
-            allocate(digitsA(lenA), digitsB(lenB))
+            !same length, compare digit by digit from most significant
+            allocate(digitsA(lengthA), digitsB(lengthB))
 
             curA => a%head
-            do i = 1, lenA
+            do i = 1, lengthA
                 digitsA(i) = curA%digit
                 curA => curA%next
             end do
 
             curB => b%head
-            do i = 1, lenB
+            do i = 1, lengthB
                 digitsB(i) = curB%digit
                 curB => curB%next
             end do
 
-            !compare from last element (most significant) to first
+            !compare digits from most significant to least significant
             listCompareAbs = 0
-            do i = lenA, 1, -1
+            do i = lengthA, 1, -1
                 if(digitsA(i) > digitsB(i)) then
                     listCompareAbs = 1
                     deallocate(digitsA, digitsB)
@@ -230,8 +233,7 @@ module dynllist
             deallocate(digitsA, digitsB)
         end function listCompareAbs
 
-        !convert a string representation to a BigInt
-        !digits are stored least significant first in the linked list
+        !build a BigInt from a string, digits stored least significant first
         subroutine listFromString(num, str)
             type(BigInt), intent(out) :: num
             character(len=*), intent(in) :: str
@@ -242,6 +244,7 @@ module dynllist
             num%sign = 1
             trimmed = adjustl(str)
 
+            !check for optional leading sign
             startPos = 1
             if(trimmed(1:1) == '-') then
                 num%sign = -1
@@ -250,13 +253,13 @@ module dynllist
                 startPos = 2
             end if
 
-            !build list from least significant to most significant
+            !append digits least significant first
             do i = len_trim(trimmed), startPos, -1
                 d = ichar(trimmed(i:i)) - ichar('0')
                 call appendNode(num, d)
             end do
 
-            !handle empty input
+            !default to zero on empty input
             if(.not. associated(num%head)) then
                 call appendNode(num, 0)
             end if
@@ -268,7 +271,7 @@ module dynllist
             end if
         end subroutine listFromString
 
-        !convert a BigInt to its string representation
+        !write a BigInt to a string
         subroutine listToString(num, str)
             type(BigInt), intent(in) :: num
             character(len=*), intent(out) :: str
@@ -276,6 +279,7 @@ module dynllist
             type(Node), pointer :: current
             integer, allocatable :: digits(:)
 
+            !collect digits into an array for reverse traversal
             len = listLength(num)
             allocate(digits(len))
 
@@ -288,12 +292,13 @@ module dynllist
             str = ' '
             pos = 1
 
+            !write negative sign if needed
             if(num%sign < 0 .and. .not. listIsZero(num)) then
                 str(pos:pos) = '-'
                 pos = pos + 1
             end if
 
-            !write digits from most significant to least significant
+            !write digits most significant first
             do i = len, 1, -1
                 str(pos:pos) = char(digits(i) + ichar('0'))
                 pos = pos + 1
@@ -302,7 +307,7 @@ module dynllist
             deallocate(digits)
         end subroutine listToString
 
-        !print a BigInt to standard output
+        !print a BigInt to stdout
         subroutine listPrint(num)
             type(BigInt), intent(in) :: num
             character(len=1024) :: str
