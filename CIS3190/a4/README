@@ -1,0 +1,15 @@
+## Build and run
+
+Compile:
+
+```bash
+gfortran -Wall dynllist.f03 unbounded.f03
+```
+
+Run:
+
+```bash
+./a.out
+```
+
+Run these commands from the directory that contains `dynllist.f03` and `unbounded.f03`.
