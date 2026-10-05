@@ -1,83 +1,69 @@
 -- Suppliers of at least one red part, using a Cartesian product
-SELECT DISTINCT S.SNAME
-FROM S, SP, P
-WHERE S.SNO = SP.SNO
-  AND SP.PNO = P.PNO
-  AND P.COLOR = 'RED'
-ORDER BY S.SNAME ASC;
+select distinct s.sname from s, sp, p
+where s.sno = sp.sno
+  and sp.pno = p.pno
+  and p.color = 'RED'
+order by s.sname;
 
 -- Suppliers of at least one red part, using joins
-SELECT DISTINCT S.SNAME
-FROM S
-JOIN SP ON S.SNO = SP.SNO
-JOIN P ON SP.PNO = P.PNO
-WHERE P.COLOR = 'RED'
-ORDER BY S.SNAME ASC;
+select distinct sname from s
+join sp using (sno)
+join p using (pno)
+where color = 'RED'
+order by sname;
 
 -- Pairs of supplier numbers for suppliers in a city containing N
-SELECT S1.SNO AS "SuppNo#1", S2.SNO AS "SuppNo#2"
-FROM S S1, S S2
-WHERE S1.CITY LIKE '%N%'
-  AND S2.CITY LIKE '%N%'
-  AND S1.SNO < S2.SNO
-ORDER BY S1.SNO ASC, S2.SNO ASC;
+select s1.sno as "SuppNo#1", s2.sno as "SuppNo#2"
+from s s1, s s2
+where s1.city like '%N%'
+  and s2.city like '%N%'
+  and s1.sno < s2.sno
+order by s1.sno, s2.sno;
 
 -- Supplier names for suppliers who supply at least one part supplied by S2
-SELECT S.SNAME
-FROM S
-WHERE S.SNO IN (
-    SELECT SP.SNO
-    FROM SP
-    WHERE SP.PNO IN (
-        SELECT SP.PNO
-        FROM SP
-        WHERE SP.SNO = 'S2'
+select sname from s
+where sno in (
+    select sno
+    from sp
+    where pno in (
+        select pno
+        from sp
+        where sno = 'S2'
     )
 )
-ORDER BY S.SNAME ASC;
+order by sname;
 
 -- Suppliers who do not supply any red parts
-SELECT S.SNO, S.SNAME
-FROM S
-WHERE S.SNO NOT IN (
-    SELECT SP.SNO
-    FROM SP
-    WHERE SP.PNO IN (
-        SELECT P.PNO
-        FROM P
-        WHERE P.COLOR = 'RED'
-    )
+select sno, sname from s
+where sno not in (
+    select sno
+    from sp
+    join p using (pno)
+    where color = 'RED'
 )
-ORDER BY S.SNO ASC;
+order by sno;
 
 -- Suppliers who do not supply any red parts, using EXCEPT
-SELECT S.SNO, S.SNAME
-FROM S
-EXCEPT
-SELECT S.SNO, S.SNAME
-FROM S, SP, P
-WHERE S.SNO = SP.SNO
-  AND SP.PNO = P.PNO
-  AND P.COLOR = 'RED'
-ORDER BY SNO ASC;
+select sno, sname from s
+except select sno, sname
+from s
+join sp using (sno)
+join p using (pno)
+where color = 'RED'
+order by sno;
 
 -- Suppliers who supply at least one red part and no green part
-SELECT S.SNAME
-FROM S
-WHERE S.SNO IN (
-    SELECT SP.SNO
-    FROM SP, P
-    WHERE SP.PNO = P.PNO
-      AND P.COLOR = 'RED'
+select sname from s
+where sno in (
+    select sno
+    from sp
+    join p using (pno)
+    where color = 'RED'
 )
-AND S.SNO NOT IN (
-    SELECT SP.SNO
-    FROM SP, P
-    WHERE SP.PNO = P.PNO
-      AND P.COLOR = 'GREEN'
+and sno not in (
+    select sno
+    from sp
+    join p using (pno)
+    where color = 'GREEN'
 )
-ORDER BY S.SNAME ASC;
-
-
-
-
+order by sname;
