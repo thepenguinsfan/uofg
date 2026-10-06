@@ -1,0 +1,17 @@
+# Documents
+*.pdf
+*.docx
+
+# Slideshows
+*.ppt
+*.pptx
+*.pps
+*.ppsx
+*.odp
+*.key
+
+# CIS4020
+CIS4020/content/
+CIS4020/.venv/
+
+
