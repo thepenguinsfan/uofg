@@ -1,0 +1,51 @@
+## General Problem 
+The Portfolio program allows users to buy and sell investments with values given by the user. 
+Users then have the options to search for investments, update the prices of investments, as well as get the total gain of all investments
+
+## Assumptions
+1. User inputs are provided through the console
+2. User somewhat has knowledge of invesment operations and terms
+
+## Limitations
+1. Program only supports stock and mutual funds
+2. Program is console-based
+3. Data is not saved and is lost when the program exits
+
+## Building and Running the Program
+1. Compile the program: javac eportfolio/Portfolio.java
+2. Running the program: java eportfolio/Portfolio
+3. Follow on-screen prompts to navigate the program
+
+## Testing
+
+### Testing for correctness
+1. User input has been tested to ensure the program only takes the proper values
+2. Test edge cases such as no input, incorrect input, or input that does not logically make sense. Example: Selling negative amount of shares
+
+### Test Cases
+1. **Buying a New Stock/Mutual Fund**
+    - Input: `Buy`, `1 or 2`, `AAPL`, `Apple Inc.`, `10`, `150.00`
+    - Expected Output: You have successfully bought 10 shares of Apple Inc at $150 per share.
+    - Invalid Input will result in a loop that will break when proper input is entered
+
+2. **Selling an Existing Stock/Mutual Fund**
+    - Input: `Sell`, `1 or 2`, `AAPL`, `Apple Inc.`, `5`, `130.00`
+    - Expected Output: You have sold 5 shares of Apple for $640.01 with a loss of $-114.98
+    - Invalid Input will result in a loop that will break when proper input is entered
+3. **Updating Prices**
+    - Input `u`, new price x+y times, where x is the size of the stock list and y is the size of the mutual fund list
+    - Invalid Input will result in a loop that will break when proper input is entered
+4. **Calculating Gain**
+    - Input: `G`
+    - Expected Output: Total gain: $xxx.xx
+
+5. **Searching for Investment**
+    - Input: `search`, ``, ``, `100-150`
+    - Output: AAPL, Apple Inc., 5, 130.00, xxx.xx 
+
+## Improvements
+- Possible improvements if I had more time
+1. Save data after program exits
+2. GUI
+3. Get real-time information regarding investments
+4. Improve comments on program
