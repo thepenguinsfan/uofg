@@ -16,10 +16,14 @@ group by e.eid, e.title
 order by e.eid;
 
 -- c
-select e.eid, e.title, count(r.sid) as goingcount
+select e.eid, e.title, coalesce(g.goingcount, 0) as goingcount
 from events e
-left join rsvp r on e.eid = r.eid and r.status = 'going'
-group by e.eid, e.title
+left join (
+  select eid, count(*) as goingcount
+  from rsvp
+  where status = 'going'
+  group by eid
+) g on e.eid = g.eid
 order by e.eid;
 
 -- d
