@@ -96,8 +96,6 @@ C2 has 4 blocks, so 4 - 1 = 3 tests
 
 The total test requirements would be 1 + 2 + 3 = 6.
 
-*(Part (f) — "Revise the characteristics to eliminate any problems you found" — is in the textbook but not assigned.)*
-
 ---
 
 ## Chapter 7.2.2, Question 5 [16 marks]
@@ -123,12 +121,33 @@ p3 = [1, 2, 3, 2, 4, 5, 6, 1, 7]
 
 **(b)** List the test requirements for Edge-Pair Coverage. (Hint: You should get 12 requirements of length 2.)
 
+[6,1,2], [6,1,7], [1,2,3], [1,2,4], [3,2,3], [3,2,4], [2,3,2], [2,4,5], [2,4,6], [4,5,6], [4,6,1], [5,6,1]
+
 **(c)** Does the given set of test paths satisfy Edge-Pair Coverage? If not, state what is missing.
+
+No. 
+p1 covers [1,2,4], [2,4,5], [4,5,6], [5,6,1], [6,1,7]
+p2 covers [1,2,3], [2,3,2], [3,2,4], [2,4,6], [4,6,1], [6,1,7]
+p3 covers [1,2,3], [2,3,2], [3,2,4], [2,4,5], [4,5,6], [5,6,1], [6,1,7]
+
+There is two missing requirements, [3,2,3] and [6,1,2].
 
 **(d)** Consider the simple path `[3, 2, 4, 5, 6]` and test path `[1, 2, 3, 2, 4, 6, 1, 2, 4, 5, 6, 1, 7]`. Does the test path tour the simple path directly? With a sidetrip? If so, write down the sidetrip.
 
+No the test path does not tour the simple path directly as after 3, 2, 4, the path goes to 6 and not 5. The test path tours with a sidetirp though, with the sidetrip being [4,6,1,2,4].
+
 **(e)** List the test requirements for Node Coverage, Edge Coverage, and Prime Path Coverage on the graph.
+
+Node Coverage: (1,2,3,4,5,6,7)
+
+Edge Coverage: {(1,2), (1,7), (2,3), (2,4), (3,2), (4,5), (4,6), (5,6), (6,1)}
+
+Prime Path Coverage
 
 **(f)** List test paths from the given set that achieve Node Coverage but not Edge Coverage on the graph.
 
+p3 visits all 7 nodes. However, it doesn't use the edge (4,6) so edge coverage is not achieved.
+
 **(g)** List test paths from the given set that achieve Edge Coverage but not Prime Path Coverage on the graph.
+
+{p1,p2} achieve edge coverage as p2 adds the edges that p1 misses ((2,3), (3,2) and (4,6)). These paths do not achieve prime path coverage as {list paths that arent toured}. {p2,p3} and {p1,p2,p3} also acheive edge coverage but not prime path coverage.
