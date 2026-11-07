@@ -1,6 +1,11 @@
 # CIS*4020 A2: Write-up draft
 
-**Do not submit this file.** These are AI-drafted answers for you to rewrite in your own words. Each section below matches one `TODO (markdown)` cell in `a2_LucLevesque.ipynb`, in notebook order, and quotes that cell's prompt. Replace the TODO line and `*Your discussion here...*` with your version, and keep any `##` heading in the cell.
+**Longer version.** The short answers to use are in the CIS4020 A2 Write-up Draft doc: https://claude.ai/artifact/8xN1Ek1ZTQiMJYoZAn4Y7p
+
+
+**Do not submit this file.** These are AI-drafted answers for you to rewrite in your own words.
+
+Each section below matches one `TODO (markdown)` cell in `a2_LucLevesque.ipynb`, in notebook order, and quotes that cell's prompt. Replace the TODO line and `*Your discussion here...*` with your version, and keep any `##` heading in the cell.
 
 All metrics come from the executed notebook and are the same on every run. Timings change slightly between runs, so they're given as approximate. Check them against your final run before you copy them.
 
@@ -284,7 +289,7 @@ The tuned tree uses only 10 of the 33 encoded columns.
 
 `age_band`, `disability`, `gender`, `region` and `studied_credits` have zero importance. One-hot columns are summed so each feature appears once.
 
-This mostly matches what I expected. Early engagement dominates, which agrees with my A1 finding on early clicks. Consistency seems to matter more than volume, as the number of active days ranks well above total clicks. `code_module` ranks second, led by modules BBB and GGG, which fits the large differences between modules I found in A1.
+This mostly matches what I expected. Early engagement dominates, which agrees with my A1 finding on early clicks. Consistency seems to matter more than volume, as the number of active days ranks well above the early click count. `code_module` ranks second, led by modules BBB and GGG, which fits the large differences between modules I found in A1.
 
 `num_of_prev_attempts` is lower than I expected given the Part 1 trend. A likely reason is that 87% of students have no prior attempts, so a split on it reduces impurity for only a small group.
 
@@ -336,7 +341,7 @@ Importance isn't causation, though. Logging in more may not itself improve resul
 
 ---
 
-## Part 5: Explain the conceptual difference between eager and lazy learners; how decision trees and k-NN differ in training vs prediction; and the trade-offs
+## Part 5: Explain the conceptual difference between eager and lazy learners; how decision trees
 
 ### Conceptual difference
 
@@ -371,14 +376,6 @@ For this task I'd choose the tree. Accuracy is about equal, it catches more at-r
 
 ---
 
-## Disclosure: Disclose how you used generative-AI tools.
-
-*Edit this to match what you actually did. It has to be accurate on the day you submit.*
-
-Generative AI (Claude Code, Anthropic) was used in this assignment. It wrote the notebook code from my planning decisions and my Assignment 1 cleaning code, ran the experiments, and drafted the written answers in a separate file. I reviewed the code and results and rewrote the written answers in my own words. I understand and can explain everything in this notebook.
-
----
-
 ## Optional: notes to add under Part 6
 
 The starter's Part 6 cell has no TODO, so these are optional additions to it.
@@ -388,3 +385,11 @@ The starter's Part 6 cell has no TODO, so these are optional additions to it.
 - **Seed:** `RANDOM_SEED = 42` is used for NumPy, the splits, the trees, the random baseline and permutation importance, so metrics are identical on each run.
 - **Timings:** these vary a little between runs and machines. The relative differences are what matter.
 - **Environment:** Python 3.15, pandas 3.1, scikit-learn 1.9.1, NumPy, SciPy and Matplotlib. Runtime is about 1 minute.
+
+---
+
+## Disclosure: Disclose how you used generative-AI tools.
+
+*Edit this to match what you actually did. It has to be accurate on the day you submit.*
+
+Generative AI (Claude Code, Anthropic) was used in this assignment. It wrote the notebook code from my planning decisions and my Assignment 1 cleaning code, ran the experiments, and drafted the written answers in a separate document. I reviewed the code and results and rewrote the written answers in my own words. I understand and can explain everything in this notebook.
