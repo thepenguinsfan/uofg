@@ -12,6 +12,7 @@
 
 # CIS4020
 CIS4020/content/
+CIS4020/*/content/
 CIS4020/.venv/
 
 
