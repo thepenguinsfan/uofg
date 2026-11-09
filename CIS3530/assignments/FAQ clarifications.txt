@@ -1,0 +1,13 @@
+Have the sql file and the excel file for Question 2 of A2 been revised for any reason?
+Yes they have been updated on Nov 6th. There are two typos/inconsistencies in the files provided for Question 2:
+
+In online_exam.sql, the primary key should be (examNo, questionNo, optionID, userId). The reference to answerOptions in the PRIMARY KEY declaration is a typo; optionID was intended.
+
+In the Excel file, the different email addresses and finish times shown for user 9991100 are data-entry inconsistencies and are not intended to represent different values. Please use the business rules given in the assignment when identifying functional dependencies. In particular, assume that each user has one email address and that each (examNo, userId) exam attempt has one start time and one finish time.
+
+These inconsistencies do not change the normalization task.
+
+
+
+Are hand-written subissions allowed?
+Hand-written submissions are allowed for Question 1 on ER Model, as long as they are clearly written and readable.
