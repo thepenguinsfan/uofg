@@ -1,0 +1,10 @@
+classpath:/home/luclevesque/uofg/CIS4150/Assignments/a4/target/classes	1:49bd10f5b49bf6713c946f373754bb734d2f3fdf0346c3a89277a57f1639d7f6
+classpath:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter/6.0.0/junit-jupiter-6.0.0.jar	6372:1759219215000
+classpath:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-api/6.0.0/junit-jupiter-api-6.0.0.jar	249930:1759219215000
+classpath:/home/luclevesque/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar	14304:1688646332000
+classpath:/home/luclevesque/.m2/repository/org/junit/platform/junit-platform-commons/6.0.0/junit-platform-commons-6.0.0.jar	171139:1759219214000
+classpath:/home/luclevesque/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar	6806:1624798415000
+classpath:/home/luclevesque/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar	3819:1721163610000
+classpath:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-params/6.0.0/junit-jupiter-params-6.0.0.jar	293651:1759219214000
+classpath:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-engine/6.0.0/junit-jupiter-engine-6.0.0.jar	353697:1759219214000
+classpath:/home/luclevesque/.m2/repository/org/junit/platform/junit-platform-engine/6.0.0/junit-platform-engine-6.0.0.jar	277619:1759219215000

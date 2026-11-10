@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Min.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">min-coverage</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Min.java</span></div><h1>Min.java</h1><pre class="source lang-java linenums">import java.util.*;
+<span class="nc" id="L2">public class Min</span>
+{
+   /**
+    * Returns the minimum element in a list
+    * @param list Comparable list of elements to search
+    * @return the minimum element in the list
+    * @throws NullPointerException (NPE) if list is null or
+    *         if any list elements are null
+    * @throws ClassCastException (CCE) if list elements are not mutually comparable
+    * @throws IllegalArgumentException if list is empty
+    */
+   public static &lt;T extends Comparable&lt;? super T&gt;&gt; T min (List&lt;? extends T&gt; list)
+   {
+<span class="fc bfc" id="L15" title="All 2 branches covered.">      if (list.size() == 0)</span>
+      {
+<span class="fc" id="L17">         throw new IllegalArgumentException (&quot;Min.min&quot;);</span>
+      }
+
+<span class="fc" id="L20">      Iterator&lt;? extends T&gt; itr = list.iterator();</span>
+<span class="fc" id="L21">      T result = itr.next();</span>
+
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">      if (result == null) throw new NullPointerException (&quot;Min.min&quot;);</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">      while (itr.hasNext())</span>
+      {
+<span class="fc" id="L27">         T comp = itr.next();</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">         if (comp.compareTo (result) &lt; 0)</span>
+         {  // throws NPE, CCE as needed
+<span class="fc" id="L30">            result = comp;</span>
+         }
+<span class="fc" id="L32">      }</span>
+<span class="fc" id="L33">      return result;</span>
+   }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

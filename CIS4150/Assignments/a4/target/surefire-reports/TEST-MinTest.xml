@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="MinTest" time="0.134" tests="10" errors="3" skipped="0" failures="3">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/luclevesque/uofg/CIS4150/Assignments/a4/target/test-classes:/home/luclevesque/uofg/CIS4150/Assignments/a4/target/classes:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter/6.0.0/junit-jupiter-6.0.0.jar:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-api/6.0.0/junit-jupiter-api-6.0.0.jar:/home/luclevesque/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/luclevesque/.m2/repository/org/junit/platform/junit-platform-commons/6.0.0/junit-platform-commons-6.0.0.jar:/home/luclevesque/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/luclevesque/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-params/6.0.0/junit-jupiter-params-6.0.0.jar:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-engine/6.0.0/junit-jupiter-engine-6.0.0.jar:/home/luclevesque/.m2/repository/org/junit/platform/junit-platform-engine/6.0.0/junit-platform-engine-6.0.0.jar:"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-17-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/home/luclevesque/uofg/CIS4150/Assignments/a4/target/surefire/surefirebooter-20261110125818101_3.jar /home/luclevesque/uofg/CIS4150/Assignments/a4/target/surefire 2026-11-10T12-58-17_294-jvmRun1 surefire-20261110125818101_1tmp surefire_0-20261110125818101_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/home/luclevesque/uofg/CIS4150/Assignments/a4/target/test-classes:/home/luclevesque/uofg/CIS4150/Assignments/a4/target/classes:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter/6.0.0/junit-jupiter-6.0.0.jar:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-api/6.0.0/junit-jupiter-api-6.0.0.jar:/home/luclevesque/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/luclevesque/.m2/repository/org/junit/platform/junit-platform-commons/6.0.0/junit-platform-commons-6.0.0.jar:/home/luclevesque/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/luclevesque/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-params/6.0.0/junit-jupiter-params-6.0.0.jar:/home/luclevesque/.m2/repository/org/junit/jupiter/junit-jupiter-engine/6.0.0/junit-jupiter-engine-6.0.0.jar:/home/luclevesque/.m2/repository/org/junit/platform/junit-platform-engine/6.0.0/junit-platform-engine-6.0.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/luclevesque"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-10-24"/>
+    <property name="java.home" value="/usr/lib/jvm/java-17-openjdk-amd64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/luclevesque/uofg/CIS4150/Assignments/a4"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/home/luclevesque/uofg/CIS4150/Assignments/a4/target/surefire/surefirebooter-20261110125818101_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.21.0.3+1-1-24.04.1-Ubuntu"/>
+    <property name="user.name" value="luclevesque"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.18.58.1-microsoft-standard-WSL2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/luclevesque/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-17"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="17.0.21.0.3"/>
+    <property name="user.dir" value="/home/luclevesque/uofg/CIS4150/Assignments/a4"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="17.0.21.0.3+1-1-24.04.1-Ubuntu"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+  </properties>
+  <testcase name="minReturnsSmallestElement(List, Object)[1]" classname="MinTest" time="0.022"/>
+  <testcase name="minReturnsSmallestElement(List, Object)[2]" classname="MinTest" time="0.002"/>
+  <testcase name="minReturnsSmallestElement(List, Object)[3]" classname="MinTest" time="0.002"/>
+  <testcase name="minReturnsSmallestElement(List, Object)[4]" classname="MinTest" time="0.002"/>
+  <testcase name="minReturnsSmallestElement(List, Object)[5]" classname="MinTest" time="0.006">
+    <failure message="expected: &lt;ant&gt; but was: &lt;Bee&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <ant> but was: <Bee>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1188)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+]]></failure>
+  </testcase>
+  <testcase name="minReturnsSmallestElement(List, Object)[6]" classname="MinTest" time="0.003">
+    <failure message="expected: &lt;9&gt; but was: &lt;10&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <9> but was: <10>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1188)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+]]></failure>
+  </testcase>
+  <testcase name="minReturnsSmallestElement(List, Object)[7]" classname="MinTest" time="0.002">
+    <failure message="expected: &lt;4&gt; but was: &lt;2&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <4> but was: <2>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1188)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+]]></failure>
+  </testcase>
+  <testcase name="minReturnsSmallestElement(List, Object)[8]" classname="MinTest" time="0.002">
+    <error message="Cannot invoke &quot;java.lang.Comparable.compareTo(Object)&quot; because &quot;comp&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.lang.Comparable.compareTo(Object)" because "comp" is null
+	at Min.min(Min.java:28)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+]]></error>
+  </testcase>
+  <testcase name="minReturnsSmallestElement(List, Object)[9]" classname="MinTest" time="0.002">
+    <error message="class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader &apos;bootstrap&apos;)" type="java.lang.ClassCastException"><![CDATA[java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at java.base/java.lang.Integer.compareTo(Integer.java:71)
+	at Min.min(Min.java:28)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+]]></error>
+  </testcase>
+  <testcase name="minReturnsSmallestElement(List, Object)[10]" classname="MinTest" time="0.001">
+    <error message="Min.min" type="java.lang.IllegalArgumentException"><![CDATA[java.lang.IllegalArgumentException: Min.min
+	at Min.min(Min.java:17)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+]]></error>
+  </testcase>
+</testsuite>

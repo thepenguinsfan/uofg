@@ -1,0 +1,50 @@
+-------------------------------------------------------------------------------
+Test set: MinTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 3, Errors: 3, Skipped: 0, Time elapsed: 0.134 s <<< FAILURE! -- in MinTest
+MinTest.minReturnsSmallestElement(List, Object)[5] -- Time elapsed: 0.006 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <ant> but was: <Bee>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1188)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+
+MinTest.minReturnsSmallestElement(List, Object)[6] -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <9> but was: <10>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1188)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+
+MinTest.minReturnsSmallestElement(List, Object)[7] -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <4> but was: <2>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:158)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:201)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1188)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+
+MinTest.minReturnsSmallestElement(List, Object)[8] -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "java.lang.Comparable.compareTo(Object)" because "comp" is null
+	at Min.min(Min.java:28)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+
+MinTest.minReturnsSmallestElement(List, Object)[9] -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.ClassCastException: class java.lang.String cannot be cast to class java.lang.Integer (java.lang.String and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at java.base/java.lang.Integer.compareTo(Integer.java:71)
+	at Min.min(Min.java:28)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+
+MinTest.minReturnsSmallestElement(List, Object)[10] -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.IllegalArgumentException: Min.min
+	at Min.min(Min.java:17)
+	at MinTest.minReturnsSmallestElement(MinTest.java:62)
+
