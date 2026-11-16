@@ -1,0 +1,109 @@
+
+
+--	INSERTING VALUES IN S
+
+INSERT INTO manuSupp VALUES('M1','SMITH',20 ,'LONDON');
+
+INSERT INTO manuSupp VALUES('M2','JONES',10 ,'PARIS');
+
+INSERT INTO manuSupp VALUES('M3','BLAKE',30 ,'PARIS');
+
+INSERT INTO manuSupp VALUES('M4','CLARK',20 ,'LONDON');
+
+INSERT INTO manuSupp VALUES('M5','ADAMS',30 ,'ATHENS');
+
+
+
+
+--	INSERTING VALUES IN items
+
+INSERT INTO items VALUES('I1', 'NUT', 'RED', 12.0, 'LONDON');
+
+INSERT INTO items VALUES('I2', 'BOLT', 'GREEN', 17.0, 'PARIS');
+
+INSERT INTO items VALUES('I3', 'SCREW', 'BLUE', 17.0, 'ROME');
+
+INSERT INTO items VALUES('I4', 'SCREW', 'RED', 14.0, 'LONDON');
+
+INSERT INTO items VALUES('I5', 'CAN', 'BLUE', 12.0, 'PARIS');
+
+INSERT INTO items VALUES('I6', 'COG', 'RED', 19.0, 'LONDON');
+
+
+
+
+
+--	INSERTING VALUES IN proj
+
+INSERT INTO proj VALUES('J1', 'SORTER', 'PARIS');
+
+INSERT INTO proj VALUES('J2', 'DISPLAY', 'ROME');
+
+INSERT INTO proj VALUES('J3', 'OCR', 'ATHENS');
+
+INSERT INTO proj VALUES('J4', 'CONSOLE', 'ATHENS');
+
+INSERT INTO proj VALUES('J5', 'RAID', 'LONDON');
+
+INSERT INTO proj VALUES('J6', 'EDS', 'OSLO');
+
+INSERT INTO proj VALUES('J7', 'TAPE', 'LONDON');
+
+
+
+
+
+--	INSERTING VALUES IN combine
+
+
+INSERT INTO combine VALUES('M1', 'I1', 'J1', 200);
+
+INSERT INTO combine VALUES('M1', 'I1', 'J4', 700);
+
+INSERT INTO combine VALUES('M2', 'I3', 'J1', 400);
+
+INSERT INTO combine VALUES('M2', 'I3', 'J2', 200);
+
+INSERT INTO combine VALUES('M2', 'I3', 'J3', 200);
+
+INSERT INTO combine VALUES('M2', 'I3', 'J4', 500);
+
+INSERT INTO combine VALUES('M2', 'I3', 'J5', 600);
+
+INSERT INTO combine VALUES('M2', 'I3', 'J6', 400);
+
+INSERT INTO combine VALUES('M2', 'I3', 'J7', 800);
+
+INSERT INTO combine VALUES('M2', 'I5', 'J2', 100);
+
+INSERT INTO combine VALUES('M3', 'I3', 'J1', 200);
+
+INSERT INTO combine VALUES('M3', 'I4', 'J2', 500);
+
+INSERT INTO combine VALUES('M4', 'I6', 'J3', 300);
+
+INSERT INTO combine VALUES('M4', 'I6', 'J7', 300);
+
+INSERT INTO combine VALUES('M5', 'I2', 'J2', 200);
+
+INSERT INTO combine VALUES('M5', 'I2', 'J4', 100);
+
+INSERT INTO combine VALUES('M5', 'I5', 'J5', 500);
+
+INSERT INTO combine VALUES('M5', 'I5', 'J7', 100);
+
+INSERT INTO combine VALUES('M5', 'I6', 'J2', 200);
+
+INSERT INTO combine VALUES('M5', 'I1', 'J4', 100);
+
+INSERT INTO combine VALUES('M5', 'I3', 'J4', 200);
+
+INSERT INTO combine VALUES('M5', 'I4', 'J4', 800);
+
+INSERT INTO combine VALUES('M5', 'I5', 'J4', 400);
+
+INSERT INTO combine VALUES('M5', 'I6', 'J4', 500);
+
+
+
+-- 	Insertion completed.
