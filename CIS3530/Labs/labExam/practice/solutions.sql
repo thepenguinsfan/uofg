@@ -1,129 +1,133 @@
 -- CIS3530 lab exam practice: SOLUTIONS
 -- Don't open until you've attempted the question. Other correct answers exist;
 -- compare your output against the expected output in practice_questions.sql.
+-- Every query uses only what is in the Week 3 / Week 4 SQL slides.
+--
+-- Joins use JOIN ... USING (column) wherever both tables share the column name.
+-- Aliases (like i1, i2) only appear where they are required: when the same
+-- table is joined to itself, or to name a subquery in the FROM clause.
 
 ------------------------------------------------------------------------
 -- PART A: LE1 (manuSupp, items, proj, combine)
 ------------------------------------------------------------------------
 
 -- A1
-select distinct m.sname
-from manusupp m
-join combine c using (manusupitemno)
-join items i using (itemno)
-join proj p on p.projno = c.projno
-where i.color = 'RED'
-  and p.city = 'LONDON'
-order by m.sname;
+select distinct sname
+from manusupp
+join combine using (manusupitemno)
+join items using (itemno)
+join proj using (projno)
+where color = 'RED'
+  and proj.city = 'LONDON'
+order by sname;
 
--- A2
-select distinct p.projno, p.projname
-from proj p
-join combine c on c.projno = p.projno
-join manusupp m on m.manusupitemno = c.manusupitemno
-where m.city = p.city
-order by p.projno;
+-- A2  (city is in both tables, so write the table name in front of it)
+select distinct projno, projname
+from proj
+join combine using (projno)
+join manusupp using (manusupitemno)
+where manusupp.city = proj.city
+order by projno;
 
 -- A3
 select manusupitemno, sname
 from manusupp
 where manusupitemno not in (
-    select c.manusupitemno
-    from combine c
-    join proj p on p.projno = c.projno
-    where p.city = 'ATHENS'
+    select manusupitemno
+    from combine
+    join proj using (projno)
+    where city = 'ATHENS'
 )
 order by manusupitemno;
 
--- A4
-select i1.itemno as item1, i2.itemno as item2, i1.color
+-- A4  (self-join: items twice, so the two copies need names i1 and i2)
+select i1.itemno, i2.itemno, i1.color
 from items i1
-join items i2 on i1.color = i2.color and i1.itemno < i2.itemno
+join items i2 on i1.color = i2.color
+where i1.itemno < i2.itemno
 order by i1.itemno, i2.itemno;
 
 -- A5
-select p.projno, p.projname, sum(c.qty) as totalqty,
-       count(distinct c.manusupitemno) as numsuppliers
-from proj p
-join combine c on c.projno = p.projno
-group by p.projno, p.projname
-having sum(c.qty) > 1000
-order by totalqty desc, p.projno;
+select projno, projname, sum(qty) as totalqty,
+       count(distinct manusupitemno) as numsuppliers
+from proj
+join combine using (projno)
+group by projno, projname
+having sum(qty) > 1000
+order by totalqty desc, projno;
 
--- A6
-select m.manusupitemno, m.sname, count(l.projno) as londonshipments
-from manusupp m
-left join (
-    select c.manusupitemno, c.projno
-    from combine c
-    join proj p on p.projno = c.projno
-    where p.city = 'LONDON'
-) l on l.manusupitemno = m.manusupitemno
-group by m.manusupitemno, m.sname
-order by m.manusupitemno;
+-- A6  (left joins keep every supplier, even those with no London shipments.
+--      The LONDON test has to sit in the ON, so this last join can't be USING.
+--      count(proj.projno) skips the rows where no London project matched.)
+select manusupitemno, sname, count(proj.projno) as londonshipments
+from manusupp
+left join combine using (manusupitemno)
+left join proj on proj.projno = combine.projno and proj.city = 'LONDON'
+group by manusupitemno, sname
+order by manusupitemno;
 
 -- A7
-select m.sname, i.iname, p.projname, c.qty
-from combine c
-join manusupp m on m.manusupitemno = c.manusupitemno
-join items i on i.itemno = c.itemno
-join proj p on p.projno = c.projno
-where c.qty = (select max(qty) from combine)
-order by m.sname;
+select sname, iname, projname, qty
+from combine
+join manusupp using (manusupitemno)
+join items using (itemno)
+join proj using (projno)
+where qty = (select max(qty) from combine)
+order by sname;
 
 -- A8
-select m.manusupitemno, m.sname
-from manusupp m
-where m.manusupitemno in (
-    select c.manusupitemno
-    from combine c join items i on i.itemno = c.itemno
-    where i.color = 'RED'
+select manusupitemno, sname
+from manusupp
+where manusupitemno in (
+    select manusupitemno
+    from combine
+    join items using (itemno)
+    where color = 'RED'
 )
-and m.manusupitemno not in (
-    select c.manusupitemno
-    from combine c join items i on i.itemno = c.itemno
-    where i.color = 'BLUE'
+and manusupitemno not in (
+    select manusupitemno
+    from combine
+    join items using (itemno)
+    where color = 'BLUE'
 )
-order by m.manusupitemno;
+order by manusupitemno;
 
--- A9  (division: no item of M2's that this supplier doesn't supply)
-select m.manusupitemno, m.sname
-from manusupp m
-where m.manusupitemno <> 'M2'
-  and not exists (
-    select c2.itemno
-    from combine c2
-    where c2.manusupitemno = 'M2'
-    except
-    select c.itemno
-    from combine c
-    where c.manusupitemno = m.manusupitemno
-)
-order by m.manusupitemno;
+-- A9  (division, count method: of M2's items, they ship as many as M2 does)
+select manusupitemno, sname
+from manusupp
+where manusupitemno <> 'M2'
+  and manusupitemno in (
+    select manusupitemno
+    from combine
+    where itemno in (select itemno from combine where manusupitemno = 'M2')
+    group by manusupitemno
+    having count(distinct itemno) = (
+        select count(distinct itemno) from combine where manusupitemno = 'M2'
+    )
+);
 
--- A10  (division: no PARIS supplier that doesn't supply this project)
-select p.projno, p.projname
-from proj p
-where not exists (
-    select *
-    from manusupp m
-    where m.city = 'PARIS'
-      and not exists (
-        select *
-        from combine c
-        where c.manusupitemno = m.manusupitemno
-          and c.projno = p.projno
+-- A10  (division, count method: number of PARIS suppliers shipping to the
+--       project equals the number of PARIS suppliers)
+select projno, projname
+from proj
+where projno in (
+    select projno
+    from combine
+    join manusupp using (manusupitemno)
+    where city = 'PARIS'
+    group by projno
+    having count(distinct manusupitemno) = (
+        select count(*) from manusupp where city = 'PARIS'
     )
 )
-order by p.projno;
+order by projno;
 
--- A11
+-- A11  (average total per supplier = overall total / number of suppliers)
 select manusupitemno, sum(qty) as totalqty
 from combine
 group by manusupitemno
 having sum(qty) > (
-    select avg(t.total)
-    from (select sum(qty) as total from combine group by manusupitemno) t
+    select sum(qty) / count(distinct manusupitemno) from combine
 )
 order by manusupitemno;
 
@@ -132,39 +136,38 @@ order by manusupitemno;
 ------------------------------------------------------------------------
 
 -- B1
-select distinct r.name
-from reviewer r
-join rating ra on ra.rid = r.rid
-join movie m on m.mid = ra.mid
-where m.title = 'Gone with the Wind'
-order by r.name;
+select distinct name
+from reviewer
+join rating using (rid)
+join movie using (mid)
+where title = 'Gone with the Wind'
+order by name;
 
 -- B2
 select title
 from movie
 where mid not in (
-    select ra.mid
-    from rating ra
-    join reviewer r on r.rid = ra.rid
-    where r.name = 'Sarah Martinez'
-       or r.name = 'Michael Walsh'
+    select mid
+    from rating
+    join reviewer using (rid)
+    where name in ('Sarah Martinez', 'Michael Walsh')
 )
 order by title;
 
 -- B3
-select distinct r.name
-from reviewer r
-join rating ra on ra.rid = r.rid
-where ra.ratingdate is null
-order by r.name;
+select distinct name
+from reviewer
+join rating using (rid)
+where ratingdate is null
+order by name;
 
 -- B4
-select m.title, count(*) as numratings, round(avg(ra.stars), 2) as avgstars
-from movie m
-join rating ra on ra.mid = m.mid
-group by m.mid, m.title
+select title, count(*) as numratings, round(avg(stars), 2) as avgstars
+from movie
+join rating using (mid)
+group by title
 having count(*) >= 3
-order by avgstars desc, m.title;
+order by avgstars desc, title;
 
 -- B5
 select director, count(*) as nummovies
@@ -174,64 +177,69 @@ group by director
 having count(*) > 1
 order by director;
 
--- B6
-select r.name, m.title
+-- B6  (self-join: rating twice, r1 = earlier rating, r2 = later rating.
+--      USING (rid, mid) matches the same reviewer and the same movie.)
+select name, title
 from rating r1
-join rating r2 on r1.rid = r2.rid and r1.mid = r2.mid
-join reviewer r on r.rid = r1.rid
-join movie m on m.mid = r1.mid
+join rating r2 using (rid, mid)
+join reviewer using (rid)
+join movie using (mid)
 where r1.ratingdate < r2.ratingdate
   and r1.stars < r2.stars;
 
--- B7
-select distinct r1.name as reviewer1, r2.name as reviewer2
+-- B7  (self-join: two ratings of the same movie, each with its own reviewer,
+--      so every copy needs a name)
+select distinct rev1.name, rev2.name
 from rating a
-join rating b on a.mid = b.mid
-join reviewer r1 on r1.rid = a.rid
-join reviewer r2 on r2.rid = b.rid
-where r1.name < r2.name
-order by reviewer1, reviewer2;
+join rating b using (mid)
+join reviewer rev1 on rev1.rid = a.rid
+join reviewer rev2 on rev2.rid = b.rid
+where rev1.name < rev2.name
+order by rev1.name, rev2.name;
 
--- B8
-select m.title, max(ra.stars) - min(ra.stars) as spread
-from movie m
-join rating ra on ra.mid = m.mid
-group by m.mid, m.title
-having max(ra.stars) - min(ra.stars) = (
-    select max(t.spread)
-    from (select max(stars) - min(stars) as spread from rating group by mid) t
-)
-order by m.title;
+-- B8  (inner query: every movie's spread; outer keeps the movies matching the max.
+--      A subquery in FROM must be given a name, here s.)
+select title, max(stars) - min(stars) as spread
+from movie
+join rating using (mid)
+group by title
+having max(stars) - min(stars) = (
+    select max(spread)
+    from (select max(stars) - min(stars) as spread
+          from rating
+          group by mid) s
+);
 
--- B9
-select r.rid, r.name, count(ra.mid) as lowratings
-from reviewer r
-left join rating ra on ra.rid = r.rid and ra.stars <= 2
-group by r.rid, r.name
-order by r.rid;
+-- B9  (the stars test goes in the ON, not WHERE, so reviewers with none stay.
+--      That extra condition is why this join can't be USING.)
+select reviewer.rid, name, count(rating.mid) as lowratings
+from reviewer
+left join rating on rating.rid = reviewer.rid and stars <= 2
+group by reviewer.rid, name
+order by reviewer.rid;
 
--- B10  (division)
-select r.name
-from reviewer r
-where not exists (
-    select *
-    from movie m
-    where m.director = 'James Cameron'
-      and not exists (
-        select *
-        from rating ra
-        where ra.rid = r.rid
-          and ra.mid = m.mid
+-- B10  (division, count method)
+select name
+from reviewer
+where rid in (
+    select rid
+    from rating
+    join movie using (mid)
+    where director = 'James Cameron'
+    group by rid
+    having count(distinct mid) = (
+        select count(*) from movie where director = 'James Cameron'
     )
-)
-order by r.name;
+);
 
--- B11
-select m.title, round(avg(ra.stars), 2) as avgstars
-from movie m
-join rating ra on ra.mid = m.mid
-group by m.mid, m.title
-having avg(ra.stars) <= all (
-    select avg(stars) from rating group by mid
-)
-order by m.title;
+-- B11  (same shape as B8, with the lowest average)
+select title, round(avg(stars), 2) as avgstars
+from movie
+join rating using (mid)
+group by title
+having avg(stars) = (
+    select min(avgstars)
+    from (select avg(stars) as avgstars
+          from rating
+          group by mid) a
+);
