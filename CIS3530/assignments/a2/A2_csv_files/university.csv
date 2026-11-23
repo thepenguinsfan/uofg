@@ -1,0 +1,7 @@
+name,uid,city,state,url
+TORONTO,400,TORONTO,ON,https://www.utoronto.ca
+TRENT,500,PETERBOROUGH,ON,https://www.trentu.ca/
+SHERBROOKE,600,SHERBROOKE,QC,https://www.usherbrooke.ca/
+WINDSOR,200,WINDSOR,ON,https://www.uwindsor.ca/
+GUELPH,100,GUELPH,ON,https://www.uoguelph.ca/
+BROCK,300,ST. CATHERINES,ON,https://www.brocku.ca/
