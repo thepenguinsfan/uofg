@@ -15,12 +15,12 @@ this course.
 
 ********************************************************/
 
-create or replace function numberAgents(uname varchar)
+create or replace function numberAgents(uniName varchar)
 returns integer as $$
 begin
   return (select count(*)
-          from agents a
-          join university u on a.uid = u.uid
-          where upper(u.name) = upper(uname));
+          from agents
+          join university using (uid)
+          where upper(name) = upper(uniName));
 end;
 $$ language plpgsql;

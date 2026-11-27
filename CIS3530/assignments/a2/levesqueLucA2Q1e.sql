@@ -15,7 +15,7 @@ this course.
 
 ********************************************************/
 
-create or replace function uppercase_names()
+create or replace function upperNames()
 returns trigger as $$
 begin
   new.fname := upper(new.fname);
@@ -24,7 +24,9 @@ begin
 end;
 $$ language plpgsql;
 
-create or replace trigger ensure_case
+drop trigger if exists ensure_case on agents;
+
+create trigger ensure_case
 before insert or update of fname, lname on agents
 for each row
-execute function uppercase_names();
+execute procedure upperNames();

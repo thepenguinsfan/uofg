@@ -15,13 +15,13 @@ this course.
 
 ********************************************************/
 
-create or replace function generateEmail(agentid integer)
+create or replace function generateEmail(agentId integer)
 returns varchar as $$
 declare
-  email varchar;
+  agentEmail varchar;
 begin
-  select lower(a.fname || '.' || a.lname || '.' || c.name || '@' ||
-         case upper(u.name)
+  select lower(fname || '.' || lname || '.' || country.name || '@' ||
+         case upper(university.name)
            when 'BROCK' then 'brocku.ca'
            when 'TRENT' then 'trentu.ca'
            when 'WINDSOR' then 'uwindsor.ca'
@@ -29,12 +29,12 @@ begin
            when 'TORONTO' then 'utoronto.ca'
            when 'GUELPH' then 'uoguelph.ca'
          end)
-  into email
-  from agents a
-  join country c on a.cid = c.cid
-  join university u on a.uid = u.uid
-  where a.aid = agentid;
+  into agentEmail
+  from agents
+  join country using (cid)
+  join university using (uid)
+  where aid = agentId;
 
-  return email;
+  return agentEmail;
 end;
 $$ language plpgsql;

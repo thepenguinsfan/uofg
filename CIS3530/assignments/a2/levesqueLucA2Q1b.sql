@@ -15,22 +15,24 @@ this course.
 
 ********************************************************/
 
-create or replace function findCommission(agentid integer)
+create or replace function findCommission(agentId integer)
 returns decimal as $$
 declare
-  comm decimal;
-  r record;
+  agentCommission decimal;
+  agent record;
 begin
-  select commission into comm from agents where aid = agentid;
-
-  if not found then
+  if not exists (select * from agents where aid = agentId) then
     raise notice 'Invalid agent id. Valid agent ids are:';
-    for r in select aid, fname, lname from agents order by aid loop
-      raise notice '%: % %', r.aid, r.fname, r.lname;
+    for agent in select aid, fname, lname from agents order by aid loop
+      raise notice '%: % %', agent.aid, agent.fname, agent.lname;
     end loop;
     raise exception 'Invalid agent id';
   end if;
 
-  return comm;
+  select commission into agentCommission
+  from agents
+  where aid = agentId;
+
+  return agentCommission;
 end;
 $$ language plpgsql;

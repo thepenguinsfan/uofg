@@ -15,7 +15,7 @@ this course.
 
 ********************************************************/
 
-create or replace function url_changed()
+create or replace function urlChanged()
 returns trigger as $$
 begin
   raise notice 'University of % is changing its URL', initcap(new.name);
@@ -23,8 +23,10 @@ begin
 end;
 $$ language plpgsql;
 
-create or replace trigger url_change
+drop trigger if exists urlChange on university;
+
+create trigger urlChange
 after update of url on university
 for each row
 when (old.url is distinct from new.url)
-execute function url_changed();
+execute procedure urlChanged();
